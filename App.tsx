@@ -1,15 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-interface iCourse {
-  id: string;
-  title: string;
-  meets: string;
-}
-interface iSchedule {
-  title: string;
-  courses: iCourse[];
-}
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+import { Course, iCourse, iSchedule } from "./components/Course";
+import { CourseList } from "./components/CourseList";
+
 const schedule: iSchedule = {
   title: "CS Courses for 2018-2019",
   courses: [
@@ -39,29 +40,12 @@ const Banner = ({ title = "default" }) => (
   <Text style={styles.bannerStyle}>{title}</Text>
 );
 
-const CourseList = ({ courses }: { courses: iCourse[] } = []): JSX.Element => (
-  <View style={styles.courseList}>
-    {courses.map((course) => (
-      <Course key={course.id} course={course} />
-    ))}
-  </View>
-);
-
-const getCourseNumber = (course: iCourse) => course.id.slice(1);
-const Course = ({ course }: { course: iCourse }) => (
-  <TouchableOpacity style={styles.courseButton}>
-    <Text style={styles.courseText}>{`CS ${getCourseNumber(course)}\n${
-      course.meets
-    }`}</Text>
-  </TouchableOpacity>
-);
-
 export default function App() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Banner title={schedule.title} />
       <CourseList courses={schedule.courses} />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -71,34 +55,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 20,
   },
   textStyle: { color: "red", fontWeight: "bold" },
   bannerStyle: {
     color: "#888",
     fontSize: 32,
-  },
-  courseList: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  courseButton: {
-    flex: 1,
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10,
-    height: 60,
-    padding: 10,
-    minWidth: 90,
-    maxWidth: 90,
-    backgroundColor: "#66b0ff",
-  },
-  courseText: {
-    color: "#fff",
-    fontSize: 12,
-    textAlign: "center",
   },
 });

@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "go-public": "expo build:web && firebase deploy"
   },
   "dependencies": {
     "expo": "~40.0.0",
@@ -20,7 +21,7 @@
     "@babel/core": "~7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-dom": "~16.9.8",
-    "@types/react-native": "~0.63.2",
+    "@types/react-native": "^0.63.45",
     "typescript": "~4.0.0"
   },
   "private": true

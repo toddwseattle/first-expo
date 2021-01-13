@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, View, StyleSheet } from "react-native";
 import { Course, iCourse } from "./Course";
+import { CourseSelector } from "./CourseSelector";
 import { getCourseTerm, TermSelector } from "./TermSelector";
 export type ReactDispatch<A> = (value: A) => void;
 export const CourseList = ({
@@ -14,26 +15,13 @@ export const CourseList = ({
   );
   return (
     <View>
-      <TermSelector
-        selectedTerm={selectedTerm}
-        setSelectedTerm={setSelectedTerm}
-      />
       <ScrollView>
-        <View style={styles.courseList}>
-          {termCourses.map((course) => (
-            <Course key={course.id} course={course} />
-          ))}
-        </View>
+        <TermSelector
+          selectedTerm={selectedTerm}
+          setSelectedTerm={setSelectedTerm}
+        />
+        <CourseSelector courses={termCourses} />
       </ScrollView>
     </View>
   );
 };
-const styles = StyleSheet.create({
-  courseList: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-});

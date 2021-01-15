@@ -31,11 +31,13 @@ export const Course = ({
   isSelected,
   select,
   isDisabled,
+  view,
 }: {
   course: iCourse;
   isSelected: boolean;
   select: (course: iCourse) => void;
   isDisabled: boolean;
+  view: (course: iCourse) => any;
 }) => (
   <TouchableOpacity
     style={
@@ -50,6 +52,7 @@ export const Course = ({
     onPress={() => {
       if (!isDisabled) select(course);
     }}
+    onLongPress={() => view(course)}
   >
     <Text style={styles.courseText}>{`CS ${getCourseNumber(course)}\n${
       course.meets

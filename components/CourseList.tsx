@@ -6,8 +6,10 @@ import { getCourseTerm, TermSelector } from "./TermSelector";
 export type ReactDispatch<A> = (value: A) => void;
 export const CourseList = ({
   courses = [],
+  view,
 }: {
   courses: iCourse[];
+  view: (course: iCourse) => any;
 }): JSX.Element => {
   const [selectedTerm, setSelectedTerm] = useState("Fall");
   const termCourses = courses.filter(
@@ -20,7 +22,7 @@ export const CourseList = ({
           selectedTerm={selectedTerm}
           setSelectedTerm={setSelectedTerm}
         />
-        <CourseSelector courses={termCourses} />
+        <CourseSelector courses={termCourses} view={view} />
       </ScrollView>
     </View>
   );

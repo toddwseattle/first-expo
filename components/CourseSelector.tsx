@@ -3,7 +3,13 @@ import { View, StyleSheet } from "react-native";
 import { hasConflict } from "../utils/utils";
 import { iCourse, Course } from "./Course";
 
-export const CourseSelector = ({ courses }: { courses: iCourse[] }) => {
+export const CourseSelector = ({
+  courses,
+  view,
+}: {
+  courses: iCourse[];
+  view: (course: iCourse) => any;
+}) => {
   const [selected, setSelected] = useState<iCourse[]>([]);
   const toggle = (course: iCourse) => {
     //  console.log(`toggle ${course.title}`);
@@ -22,6 +28,7 @@ export const CourseSelector = ({ courses }: { courses: iCourse[] }) => {
           isSelected={selected.includes(course)}
           select={toggle}
           isDisabled={hasConflict(course, selected)}
+          view={view}
         />
       ))}
     </View>

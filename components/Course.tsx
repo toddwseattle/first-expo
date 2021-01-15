@@ -8,10 +8,17 @@ import {
   TouchableOpacityProps,
   ViewStyle,
 } from "react-native";
+
+export interface iHours {
+  start: number;
+  end: number;
+}
 export interface iCourse {
   id: string;
   title: string;
   meets: string;
+  days?: string[];
+  hours?: iHours;
 }
 export interface iSchedule {
   title: string;
@@ -23,12 +30,27 @@ export const Course = ({
   course,
   isSelected,
   select,
+  isDisabled,
 }: {
   course: iCourse;
   isSelected: boolean;
   select: (course: iCourse) => void;
+  isDisabled: boolean;
 }) => (
-  <TouchableOpacity style={styles.courseButton} onPress={() => select(course)}>
+  <TouchableOpacity
+    style={
+      styles[
+        isSelected
+          ? "courseButtonSelected"
+          : isDisabled
+          ? "courseButtonDisabled"
+          : "courseButton"
+      ]
+    }
+    onPress={() => {
+      if (!isDisabled) select(course);
+    }}
+  >
     <Text style={styles.courseText}>{`CS ${getCourseNumber(course)}\n${
       course.meets
     }`}</Text>
@@ -55,6 +77,10 @@ const styles = StyleSheet.create({
   courseButtonSelected: {
     ...courseButtonBase,
     backgroundColor: "#004a99",
+  },
+  courseButtonDisabled: {
+    ...courseButtonBase,
+    backgroundColor: "#d3d3d3",
   },
   courseText: {
     color: "#fff",

@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
+import { hasConflict } from "../utils/utils";
 import { iCourse, Course } from "./Course";
 
 export const CourseSelector = ({ courses }: { courses: iCourse[] }) => {
   const [selected, setSelected] = useState<iCourse[]>([]);
-  const toggle = (course: iCourse) =>
+  const toggle = (course: iCourse) => {
+    //  console.log(`toggle ${course.title}`);
     setSelected((selected) =>
       selected.includes(course)
         ? selected.filter((x) => x !== course)
         : [...selected, course]
     );
+  };
   return (
     <View style={styles.courseList}>
       {courses.map((course) => (
@@ -18,6 +21,7 @@ export const CourseSelector = ({ courses }: { courses: iCourse[] }) => {
           course={course}
           isSelected={selected.includes(course)}
           select={toggle}
+          isDisabled={hasConflict(course, selected)}
         />
       ))}
     </View>

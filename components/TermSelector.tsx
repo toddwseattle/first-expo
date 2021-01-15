@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 import { iCourse } from "./Course";
 import { ReactDispatch } from "./CourseList";
 const termMap: any = { F: "Fall", W: "Winter", S: "Spring" };
@@ -36,13 +42,13 @@ export const TermSelector = ({
       <TermButton
         key={term}
         term={term}
-        isActive={term == selectedTerm}
+        isActive={term === selectedTerm}
         setSelectedTerm={setSelectedTerm}
       />
     ))}
   </View>
 );
-const termButtonBase = {
+const termButtonBase: ViewStyle = {
   flex: 1,
   borderRadius: 5,
   justifyContent: "center",

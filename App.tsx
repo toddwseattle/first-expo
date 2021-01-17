@@ -2,9 +2,17 @@ import React from "react";
 import ScheduleScreen from "./screens/ScheduleScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import CourseDetailScreen from "./screens/CourseDetailScreen";
-
-const Stack = createStackNavigator();
+import CourseDetailScreen, {
+  CourseDetailScreenProps,
+} from "./screens/CourseDetailScreen";
+/**
+ * In typescript we need to create a type that contains all top level screens and their params
+ */
+export type RootStackParamList = {
+  ScheduleScreen: undefined;
+  CourseDetailScreen: CourseDetailScreenProps;
+};
+const Stack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (

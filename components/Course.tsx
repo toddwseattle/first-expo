@@ -8,6 +8,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
 } from "react-native";
+import { CourseViewFunction } from "../screens/ScheduleScreen";
 
 export interface iHours {
   start: number;
@@ -26,19 +27,21 @@ export interface iSchedule {
 }
 const getCourseNumber = (course: iCourse) => course.id.slice(1);
 
+export interface CourseProps {
+  course: iCourse;
+  isSelected: boolean;
+  select: (course: iCourse) => void;
+  isDisabled: boolean;
+  view: CourseViewFunction;
+}
+
 export const Course = ({
   course,
   isSelected,
   select,
   isDisabled,
   view,
-}: {
-  course: iCourse;
-  isSelected: boolean;
-  select: (course: iCourse) => void;
-  isDisabled: boolean;
-  view: (course: iCourse) => any;
-}) => (
+}: CourseProps) => (
   <TouchableOpacity
     style={
       styles[

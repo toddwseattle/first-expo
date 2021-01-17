@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
+import { CourseViewFunction } from "../screens/ScheduleScreen";
 import { hasConflict } from "../utils/utils";
 import { iCourse, Course } from "./Course";
 
@@ -8,7 +9,7 @@ export const CourseSelector = ({
   view,
 }: {
   courses: iCourse[];
-  view: (course: iCourse) => any;
+  view: CourseViewFunction;
 }) => {
   const [selected, setSelected] = useState<iCourse[]>([]);
   const toggle = (course: iCourse) => {

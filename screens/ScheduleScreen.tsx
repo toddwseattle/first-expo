@@ -1,5 +1,5 @@
-import { StackNavigationState } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
@@ -11,15 +11,27 @@ import {
 } from "react-native";
 import { Course, iCourse, iSchedule } from "../components/Course";
 import { CourseList } from "../components/CourseList";
+import { CourseDetailScreenProps } from "./CourseDetailScreen";
+import { RootStackParamList } from "../App";
 
 const Banner = ({ title }: { title: string }) => (
   <Text style={styles.bannerStyle}>{title || "[loading...]"}</Text>
 );
-
-export default function ScheduleScreen({ navigation }: { navigation: any }) {
+export type CourseViewFunction = (course: iCourse) => void;
+export type CourseDetailNavigationProps = StackNavigationProp<
+  RootStackParamList,
+  "CourseDetailScreen"
+>;
+export default function ScheduleScreen({
+  navigation,
+}: {
+  navigation: CourseDetailNavigationProps;
+}) {
   const [schedule, setSchedule] = useState({ title: "", courses: [] });
-  const view = (course: iCourse) =>
+  const view: CourseViewFunction = (course: iCourse) => {
+    console.log(`view course ${course.id} ${course.title}`);
     navigation.navigate("CourseDetailScreen", { course });
+  };
   useEffect(() => {
     const fetchSchedule = async () => {
       const response = await fetch(url);

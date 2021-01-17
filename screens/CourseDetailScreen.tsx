@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import { iCourse } from "../components/Course";
 
 const Field = ({ label, value }: { label: string; value: string }) => {
   return (
@@ -9,14 +10,17 @@ const Field = ({ label, value }: { label: string; value: string }) => {
     </View>
   );
 };
+export interface CourseDetailScreenProps {
+  course: iCourse;
+}
 
-const CourseDetailScreen = () => {
-  const course = {
-    id: "F101",
-    title: "Computer Science: Concepts, Philosophy, and Connections",
-    meets: "MWF 11:00-11:50",
-  };
-
+const CourseDetailScreen = ({
+  route: {
+    params: { course },
+  },
+}: {
+  route: { params: CourseDetailScreenProps };
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

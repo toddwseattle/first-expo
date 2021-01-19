@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StackNavigationProp } from "@react-navigation/stack";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import { Course, iCourse, iSchedule } from "../components/Course";
 import { CourseList } from "../components/CourseList";
 import { CourseDetailScreenProps } from "./CourseDetailScreen";
 import { RootStackParamList } from "../App";
+import UserContext from "../components/UserContext";
 
 const Banner = ({ title }: { title: string }) => (
   <Text style={styles.bannerStyle}>{title || "[loading...]"}</Text>
@@ -22,15 +23,17 @@ export type CourseDetailNavigationProps = StackNavigationProp<
   RootStackParamList,
   "CourseDetailScreen"
 >;
-export default function ScheduleScreen({
-  navigation,
-}: {
+export interface ScheduleScreenProps {
   navigation: CourseDetailNavigationProps;
-}) {
+}
+export default function ScheduleScreen({ navigation }: ScheduleScreenProps) {
+  const user = useContext(UserContext);
+  const canEdit = user?.role;
   const [schedule, setSchedule] = useState({ title: "", courses: [] });
   const view: CourseViewFunction = (course: iCourse) => {
-    console.log(`view course ${course.id} ${course.title}`);
-    navigation.navigate("CourseDetailScreen", { course });
+    navigation.navigate(canEdit ? "CourseEditScreen" : "CourseDetailScreen", {
+      course,
+    });
   };
   useEffect(() => {
     const fetchSchedule = async () => {

@@ -14,6 +14,7 @@ import { CourseList } from "../components/CourseList";
 import { CourseDetailScreenProps } from "./CourseDetailScreen";
 import { RootStackParamList } from "../App";
 import UserContext from "../components/UserContext";
+import { firebase } from "../firebase";
 
 const Banner = ({ title }: { title: string }) => (
   <Text style={styles.bannerStyle}>{title || "[loading...]"}</Text>
@@ -26,6 +27,10 @@ export type CourseDetailNavigationProps = StackNavigationProp<
 export interface ScheduleScreenProps {
   navigation: CourseDetailNavigationProps;
 }
+const fixCourses = (json: any) => ({
+  ...json,
+  courses: Object.values(json.courses),
+});
 export default function ScheduleScreen({ navigation }: ScheduleScreenProps) {
   const user = useContext(UserContext);
   const canEdit = user?.role;
@@ -36,13 +41,14 @@ export default function ScheduleScreen({ navigation }: ScheduleScreenProps) {
     });
   };
   useEffect(() => {
-    const fetchSchedule = async () => {
-      const response = await fetch(url);
-      if (!response.ok) throw response;
-      const json = await response.json();
-      setSchedule(json);
+    const db = firebase.database().ref();
+    const handleData = (snap: firebase.database.DataSnapshot) => {
+      if (snap.val()) setSchedule(fixCourses(snap.val()));
     };
-    fetchSchedule();
+    db.on("value", handleData);
+    return () => {
+      db.off("value", handleData);
+    };
   }, []);
   return (
     <SafeAreaView style={styles.container}>

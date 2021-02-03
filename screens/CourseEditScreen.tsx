@@ -5,7 +5,7 @@ import { iCourse } from "../components/Course";
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Form from "../components/Form";
+import Form from "../components/Forms/Form.js";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({

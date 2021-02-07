@@ -5,13 +5,15 @@ import { iCourse } from "../components/Course";
 import React from "react";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Form from "../components/Forms/Form.js";
+import Form from "../components/Form";
 import * as Yup from "yup";
+import { useState } from "react";
+import { firebase } from "../utils/firebase";
 
 const validationSchema = Yup.object().shape({
   id: Yup.string()
     .required()
-    .matches(/(F|W|S){3,}/, "Must be a term and 3 digit number")
+    .matches(/(F|W|S)\d{3,}/, "Must be a term and 3 digit number")
     .label("ID"),
   meets: Yup.string()
     .required()
@@ -32,7 +34,23 @@ export interface CourseEditScreenParams {
 }
 export function CourseEditScreen({ navigation, route }: CourseEditScreenProps) {
   const course = route.params.course;
-  console.log(course);
+  const [submitError, setSubmitError] = useState("");
+
+  async function handleSubmit(values: iCourse) {
+    const { id, meets, title } = values;
+    const course: iCourse = { id, meets, title };
+    console.log(`submitting course: ${course.id} ${course.title}`);
+
+    firebase
+      .database()
+      .ref("courses")
+      .child(id)
+      .set(course)
+      .catch((error) => {
+        setSubmitError(error.message);
+      });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -43,6 +61,7 @@ export function CourseEditScreen({ navigation, route }: CourseEditScreenProps) {
             meets: course.meets,
             title: course.title,
           }}
+          onSubmit={(values: iCourse) => handleSubmit(values)}
         >
           <Form.Field
             name="id"
@@ -62,11 +81,14 @@ export function CourseEditScreen({ navigation, route }: CourseEditScreenProps) {
             leftIcon="format-title"
             placeholder="Introduction to programming"
           />
+          <Form.Button title={"Update"} />
+          {<Form.ErrorMessage error={submitError} visible={true} />}
         </Form>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

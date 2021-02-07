@@ -1,20 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView } from "react-native";
 import { Course, iCourse, iSchedule } from "../components/Course";
 import { CourseList } from "../components/CourseList";
 import { CourseDetailScreenProps } from "./CourseDetailScreen";
 import { RootStackParamList } from "../App";
 import UserContext from "../components/UserContext";
-import { firebase } from "../firebase";
+import { firebase } from "../utils/firebase";
 
 const Banner = ({ title }: { title: string }) => (
   <Text style={styles.bannerStyle}>{title || "[loading...]"}</Text>

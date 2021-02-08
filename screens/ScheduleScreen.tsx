@@ -8,6 +8,7 @@ import { CourseDetailScreenProps } from "./CourseDetailScreen";
 import { RootStackParamList } from "../App";
 import UserContext from "../components/UserContext";
 import { firebase } from "../utils/firebase";
+import { UserRole } from "../utils/User";
 
 const Banner = ({ title }: { title: string }) => (
   <Text style={styles.bannerStyle}>{title || "[loading...]"}</Text>
@@ -26,7 +27,9 @@ const fixCourses = (json: any) => ({
 });
 export default function ScheduleScreen({ navigation }: ScheduleScreenProps) {
   const user = useContext(UserContext);
-  const canEdit = user?.role;
+  console.log("schedule screen");
+  console.log(user);
+  const canEdit = user.role == ("admin" as UserRole);
   const [schedule, setSchedule] = useState({ title: "", courses: [] });
   const view: CourseViewFunction = (course: iCourse) => {
     navigation.navigate(canEdit ? "CourseEditScreen" : "CourseDetailScreen", {
